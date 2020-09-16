@@ -1,6 +1,4 @@
 package paths;
-
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,7 +10,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
-public class Paths { // https://www.softwarelab.it/2018/10/12/adding-an-existing-project-to-github-using-the-command-line/
+public class Paths { // look at some of the path information
     boolean check(String name,Collection<? extends Object> objects) {
         Set<Object> set=new LinkedHashSet<>();
         boolean ok=true;
@@ -37,10 +35,8 @@ public class Paths { // https://www.softwarelab.it/2018/10/12/adding-an-existing
     }
     @SuppressWarnings("unchecked") void process(String name,Object object) throws IOException {
         Collection<?> files;
-        if(object instanceof Collection<?>)
-            files=(Collection<?>)object;
-        else if(object instanceof String)
-            files=toList((String)object);
+        if(object instanceof Collection<?>) files=(Collection<?>)object;
+        else if(object instanceof String) files=toList((String)object);
         else throw new RuntimeException();
         System.out.println(name+": "+files);
         if(!check(name,files)) System.out.println("\thas duplicates!");
