@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 public class Paths { // look at some of the path information
     boolean check(String name,Collection<? extends Object> objects) {
         Set<Object> set=new LinkedHashSet<>();
@@ -37,7 +39,14 @@ public class Paths { // look at some of the path information
         Collection<?> files;
         if(object instanceof Collection<?>) files=(Collection<?>)object;
         else if(object instanceof String) files=toList((String)object);
-        else throw new RuntimeException();
+        else if(object==null) {
+            System.out.println("object is null in process(name,object)");
+            files=Collections.EMPTY_SET;
+        } else {
+            System.out.println("---------------------------");
+            System.out.println("class: "+object.getClass()+" object: "+object);
+            throw new RuntimeException();
+        }
         System.out.println(name+": "+files);
         if(!check(name,files)) System.out.println("\thas duplicates!");
         findAndPrintTargets(files);
@@ -49,8 +58,7 @@ public class Paths { // look at some of the path information
                 if(object.toString().contains(target)) if(unique.add(object.toString())) System.out.println("\t"+object);
     }
     private void run() throws IOException {
-        System.out.println("separator: "+separator);
-        System.out.println("-----------");
+        System.out.println("path separator: "+separator);
         System.out.println("java jdk properties: "+properties);
         String javaLibraryPath=properties.getProperty("java.library.path");
         process("java library path",javaLibraryPath);
